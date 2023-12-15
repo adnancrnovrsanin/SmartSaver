@@ -7,14 +7,12 @@ interface TileProps {
   i: number;
   j: number;
   fields: any;
-  onClick: () => void;
   isMouseDown: boolean;
   setIsMouseDown: any;
 }
 
 const Tile = ({
   value,
-  onClick,
   editMode,
   tileValue,
   i,
@@ -23,6 +21,7 @@ const Tile = ({
   isMouseDown,
   setIsMouseDown,
 }: TileProps) => {
+
   let [tip, setTip] = useState("bg-slate-300");
   const [mouseEntered, setMouseEntered] = useState(false);
 
@@ -38,11 +37,9 @@ const Tile = ({
 
   useEffect(() => {
     if (editMode) {
-      console.log(`${i} ${j} ${isMouseDown}`);
       if (isMouseDown && mouseEntered) {
         fields[i][j] = tileValue;
         value = tileValue;
-        console.log("promenio");
         if (value === 0) {
           setTip("bg-slate-100");
         } else if (value === 1) {
@@ -51,14 +48,13 @@ const Tile = ({
           setTip("bg-orange-400");
         }
       }
-      console.log("Opalio");
     }
   }, [mouseEntered, isMouseDown]);
 
   return (
     <div
-      className={`tile w-8 h-8 border ${tip} `}
-      onClick={onClick}
+      className={`tile w-9 h-9 ${editMode && "border"} ${tip} `}
+      // onClick={}
       onMouseDown={() => setIsMouseDown(true)}
       onMouseUp={() => setIsMouseDown(false)}
       onMouseEnter={() => setMouseEntered(true)}
