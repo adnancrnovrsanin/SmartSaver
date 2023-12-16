@@ -49,6 +49,7 @@ export default class DevicesStore {
   homeMatrix: HomeMap | null = null;
   sendData: Data | null = null;
   homes: Home[] = [];
+  currentHome: Home | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -62,6 +63,13 @@ export default class DevicesStore {
     this.devices.push(devices);
     toast.success("Device created successfully!");
   };
+
+  setCurrentHome = (homeId: string) => {
+    const home = this.homes.find((x) => x.id === homeId);
+    if (home) {
+      this.currentHome = home;
+    }
+  } 
 
   setHomeData = (data: HomeData | null) => {
     if (data === null) {
@@ -97,7 +105,6 @@ export default class DevicesStore {
           mapColumnCount: data.mapColumnCount,
         };
         this.homeMatrix = newHomeMap;
-        // toast.success("Home created successfully!");
         // router.navigate("/dashboard");
         const newSendData: Data = {
           devices: this.devices,
@@ -115,6 +122,7 @@ export default class DevicesStore {
         console.log();
         await agent.HomeRequests.create(newSendData);
         router.navigate("/");
+        toast.success("Home created successfully!");
       } else {
         console.log("ne radi nesto na setHomeMap");
       }
@@ -132,6 +140,23 @@ export default class DevicesStore {
         this.homes = response;
       });
     } catch (error) {
+      console.log(error);
+    }
+  };
+
+  turnOffDevice = async (deviceId: string) => {
+    try {
+      await agent.HomeRequests.turnOff(deviceId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  turnOnDevice = async (deviceId: string) => {
+    try{
+      await agent.HomeRequests.turnOn(deviceId);
+    }
+    catch(error){
       console.log(error);
     }
   };

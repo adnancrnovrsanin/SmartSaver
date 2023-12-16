@@ -16,11 +16,11 @@ const Analytics: React.FC = () => {
       </div>
       <div className="flex w-screen">
         <div className="w-1/2 p-4 flex justify-center items-center flex-col">
-          <CustomH2 text="Power Consumption Last Week" />
+          <CustomH2 text="Consumption on different rates" />
           <SimplePieChart />
         </div>
         <div className="w-1/2 p-4 flex justify-center items-center flex-col">
-          <CustomH2 text="Power Consuption Per Device" />
+          <CustomH2 text="Difference in consumption" />
           <SimpleTwoLineChart />
         </div>
       </div>
@@ -122,18 +122,6 @@ const data2 = [
     amt: 2290,
   },
   {
-    name: "Kuhinjski Aparati",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Ves Masina",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
     name: "Svetlo",
     uv: 2390,
     pv: 3800,
@@ -158,27 +146,12 @@ export class SimpleBarChart extends PureComponent {
 import { PieChart, Pie } from "recharts";
 
 const data01 = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 },
-];
-const data02 = [
-  { name: "A1", value: 100 },
-  { name: "A2", value: 300 },
-  { name: "B1", value: 100 },
-  { name: "B2", value: 80 },
-  { name: "B3", value: 40 },
-  { name: "B4", value: 30 },
-  { name: "B5", value: 50 },
-  { name: "C1", value: 100 },
-  { name: "C2", value: 200 },
-  { name: "D1", value: 150 },
-  { name: "D2", value: 50 },
+  { name: "Red Rate", value: 750 },
+  { name: "Blue Rate", value: 400 },
+  { name: "Green Rate", value: 1100 },
 ];
 
 export class SimplePieChart extends PureComponent {
-  static demoUrl = "https://codesandbox.io/s/pie-chart-of-two-levels-gor24";
 
   render() {
     return (
@@ -192,7 +165,7 @@ export class SimplePieChart extends PureComponent {
           fill="#8884d8"
         />
         <Pie
-          data={data02}
+          data={data01}
           dataKey="value"
           cx="50%"
           cy="50%"
@@ -200,6 +173,11 @@ export class SimplePieChart extends PureComponent {
           outerRadius={90}
           fill="#82ca9d"
           label
+        />
+        <Legend 
+          layout="vertical"
+          align="right"
+          verticalAlign="middle"
         />
       </PieChart>
     );
@@ -217,31 +195,31 @@ const data03 = [
   {
     name: "Day 2",
     day: 7,
-    powerConsumption: 450,
+    powerConsumption: 350,
     powerConsumption2: 390,
   },
   {
     name: "Day 3",
     day: 7,
-    powerConsumption: 200,
+    powerConsumption: 450,
     powerConsumption2: 310,
   },
   {
     name: "Day 4",
     day: 7,
-    powerConsumption: 300,
+    powerConsumption: 200,
     powerConsumption2: 275,
   },
   {
     name: "Day 5",
     day: 7,
-    powerConsumption: 350,
+    powerConsumption: 300,
     powerConsumption2: 230,
   },
   {
     name: "Day 6",
     day: 7,
-    powerConsumption: 200,
+    powerConsumption: 350,
     powerConsumption2: 100,
   },
   {

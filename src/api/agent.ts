@@ -52,7 +52,6 @@ axios.interceptors.response.use(
           break;
         case 500:
           store.commonStore.setServerError(data);
-          // router navigates to /server-error
           break;
       }
     }
@@ -81,6 +80,8 @@ const AccountRequests = {
 const HomeRequests = {
   create: (data: Data) => requests.post<void>("/home", data),
   getUserHomes: (userId: string) => requests.get<Home[]>("/home/user/" + userId),
+  turnOn: (deviceId:string) => requests.post<void>("/Device/turnOn/" + deviceId, {}),
+  turnOff: (deviceId:string) => requests.post<void>("/Device/turnOff/" + deviceId, {}),
 };
 
 const agent = {

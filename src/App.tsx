@@ -28,6 +28,7 @@ function App() {
     }
   }, [commonStore, userStore]);
 
+
   if (!commonStore.appLoaded) return <InitialLoader adding={"App"} />;
 
   return (

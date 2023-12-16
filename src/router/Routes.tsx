@@ -8,6 +8,7 @@ import TileGrid from "@/components/tile/tileGrid";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import AddNewHome from "@/pages/AddNewHome/AddNewHome";
 import Analytics from "@/pages/Analytics/Analytics";
+import Scheduler from "@/pages/Scheduler/Scheduler";
 
 export const routes: RouteObject[] = [
   {
@@ -28,6 +29,7 @@ export const routes: RouteObject[] = [
       { path: "/home-grid", element: <TileGrid /> },
       { path: "/home-add", element: <AddNewHome /> },
       { path: "/analytics/:id", element: <Analytics /> },
+      { path: "/scheduler", element: <Scheduler /> },
     ],
   },
 ];

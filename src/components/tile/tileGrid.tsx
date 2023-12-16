@@ -5,7 +5,7 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/store";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Field } from "@/models/home";
 import { CustomH1 } from "../Typography/CustomH1";
 import FieldTable from "./FieldTable"
@@ -21,16 +21,19 @@ const TileGrid: React.FC<TileGridProps> = ({}) => {
   const [rows, setRows] = useState(11);
   const [columns, setColumns] = useState(11);
   const [editMode, setEditMode] = useState(false);
+  const [numActive, setNumActive] = useState(0);
+  const navigate = useNavigate();
   const [fieldsState, setFieldsState] = useState(
     Array(11).fill(Array(11).fill(0))
   );
 
-  const { setHomeMap } = devicesStore;
+  const { setHomeMap, setCurrentHome } = devicesStore;
   let fields = fieldsState;
 
   useLayoutEffect(() => {
     if (id) {
       const home = homes.find((h) => h.id === id);
+      setCurrentHome(id);
       if (home) {
         setRows(home.mapRowCount);
         setColumns(home.mapColumnCount);
@@ -89,6 +92,10 @@ const TileGrid: React.FC<TileGridProps> = ({}) => {
     }
   }
 
+  function changeLocation(){
+    navigate("/scheduler");
+  }
+
   return (
     <div className="tile-grid flex-column overflow-hidden h-fit mb-24">
       <div className="w-screen flex justify-end p-3 overflow-hidden mr-5">
@@ -97,6 +104,12 @@ const TileGrid: React.FC<TileGridProps> = ({}) => {
           onClick={() => changeEditMode()}
         >
           {editMode ? "Save" : "Edit"}
+        </button>
+        <button
+          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 mr-5 rounded overflow-hidden focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50"
+          onClick={changeLocation}
+        >
+          Schedule a notification
         </button>
       </div>
       <CustomH1 text="Home Map" />
@@ -139,6 +152,8 @@ const TileGrid: React.FC<TileGridProps> = ({}) => {
                   setFieldsState={setFieldsState}
                   i={j}
                   j={i}
+                  setNumActive={setNumActive}
+                  numActive={numActive}
                   editMode={editMode}
                   isMouseDown={isMouseDown}
                   setIsMouseDown={setIsMouseDown}
@@ -148,7 +163,7 @@ const TileGrid: React.FC<TileGridProps> = ({}) => {
           );
         })}
       </div>
-      <FieldTable fields={fieldsState} />
+      <FieldTable fields={fieldsState} numActive={numActive}/>
     </div>
   );
 };

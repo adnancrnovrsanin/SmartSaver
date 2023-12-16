@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { observer } from "mobx-react-lite";
 import { CustomH2 } from "../Typography/CustomH2";
+import { FaRegLightbulb } from "react-icons/fa";
+import { FaLightbulb } from "react-icons/fa";
 
 interface TileProps {
   value: number;
@@ -21,6 +23,8 @@ interface TileProps {
   j: number;
   isMouseDown: boolean;
   setIsMouseDown: any;
+  setNumActive: any;
+  numActive: number;
   setFieldsState: any;
 }
 
@@ -33,18 +37,22 @@ const Tile = ({
   isMouseDown,
   setIsMouseDown,
   setFieldsState,
+  setNumActive,
+  numActive,
 }: TileProps) => {
+  const { devicesStore } = useStore();
   const [tip, setTip] = useState("bg-slate-300");
   const [mouseEntered, setMouseEntered] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [name, setName] = useState("");
+  const [active, setActive] = useState(false);
   const [manufacturer, setManufacturer] = useState("");
   const [powerUsage, setPowerUsage] = useState("");
   const [modelNumber, setModelNumber] = useState("");
   const [type, setType] = useState("");
   const [openSecondDialog, setOpenSecondDialog] = useState(false);
-  const { devicesStore } = useStore();
   const { setDevices } = devicesStore;
+
   useEffect(() => {
     if (value === 0) {
       setTip("bg-gray-500");
@@ -95,13 +103,22 @@ const Tile = ({
 
   function turnDevice(e: any): void {
     e.preventDefault();
+    if (!active) {
+      setTip("bg-rose-800");
+      setActive(true);
+      setNumActive(numActive + 1);
+    } else {
+      setActive(false);
+      setTip("bg-orange-400");
+      setNumActive(numActive - 1);
+    }
     setOpenSecondDialog(false);
   }
 
   return (
     <>
       <div
-        className={`tile w-8 h-8  ${editMode && "border"} ${tip} `}
+        className={`tile w-8 h-8  ${editMode && "border"} flex justify-center ${tip} `}
         onMouseDown={() => setIsMouseDown(true)}
         onMouseUp={() => setIsMouseDown(false)}
         onMouseEnter={() => setMouseEntered(true)}
@@ -109,7 +126,10 @@ const Tile = ({
         onClick={() => {
           if (!editMode && value === 2) setOpenSecondDialog(true);
         }}
-      ></div>
+      >
+        {tip === "bg-rose-800" && <FaLightbulb className="text-2xl" />}
+        {tip === "bg-orange-400" && <FaRegLightbulb className="text-2xl"/>}
+      </div>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogContent>
           <DialogHeader>

@@ -9,7 +9,7 @@ import {
     TableRow,
   } from "@/components/ui/table"
 
-const FieldTable = ({ fields }: { fields: number[][] }) => {
+const FieldTable = ({ fields, numActive }: { fields: number[][], numActive: number }) => {
   const [numOfDevices, setNumOfDevices] = useState(0);
   const [numOfWalls, setNumOfWalls] = useState(0);
 
@@ -45,7 +45,7 @@ const FieldTable = ({ fields }: { fields: number[][] }) => {
       <TableRow>
         <TableCell>{numOfDevices}</TableCell>
         <TableCell>{numOfWalls}</TableCell>
-        <TableCell>No</TableCell>
+        <TableCell>{numActive}</TableCell>
       </TableRow>
     </TableBody>
   </Table>

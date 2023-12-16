@@ -49,6 +49,8 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded, setExpanded }) => {
       <div className="flex flex-col justify-center items-center">
       <a href="/dashboard" className="text-lg font-bold">Dashboard</a>
       <a href="/" className="text-lg font-bold">Landing</a>
+      <a href="/login" className="text-lg font-bold">Login</a>
+      <a href="/register" className="text-lg font-bold">Register</a>
       </div>
     </div>
   );
