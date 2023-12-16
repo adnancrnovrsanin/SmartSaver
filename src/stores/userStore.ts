@@ -24,6 +24,7 @@ export default class UserStore {
 
     try {
       const response = await agent.AccountRequests.login(loginRequest);
+      console.log(response);
       const user: User = {
         userName: response.userName,
         firstName: response.firstName,
@@ -32,6 +33,7 @@ export default class UserStore {
         id: response.id,
       };
       store.commonStore.setToken(response.token);
+      window.localStorage.setItem("jwt", response.token);
       runInAction(() => {
         this.user = user;
         this.getUser();
@@ -63,6 +65,7 @@ export default class UserStore {
 
   logout = () => {
     store.commonStore.setToken(null);
+    window.localStorage.removeItem("jwt");
     this.user = null;
     router.navigate("/");
   };
@@ -71,6 +74,7 @@ export default class UserStore {
     try {
       const response = await agent.AccountRequests.current();
       store.commonStore.setToken(response.token);
+      window.localStorage.setItem("jwt", response.token);
       const user: User = {
         userName: response.userName,
         firstName: response.firstName,
