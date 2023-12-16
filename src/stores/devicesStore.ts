@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
+import { store } from "./store";
 
 export interface Device {
   name: string;
@@ -37,6 +38,7 @@ export interface Data {
   houseMap: Number[][];
   mapRowCount: number;
   mapColumnCount: number;
+  appUserId: string
 }
 
 export default class DevicesStore {
@@ -103,6 +105,7 @@ export default class DevicesStore {
         houseMap: this.homeMatrix.houseMap,
         mapRowCount: this.homeMatrix.mapRowCount,
         mapColumnCount: this.homeMatrix.mapColumnCount,
+        appUserId: store.userStore.user?.id ?? "0"
       };
     } else {
       console.log("ne radi nesto na setHomeMap");

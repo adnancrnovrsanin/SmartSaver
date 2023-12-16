@@ -26,6 +26,7 @@ export default class UserStore {
       username: response.username,
       firstName: response.firstName,
       lastName: response.lastName,
+      id: response.id,
       email: response.email,
     };
     store.commonStore.setToken(response.token);
@@ -44,6 +45,7 @@ export default class UserStore {
         username: response.username,
         firstName: response.firstName,
         lastName: response.lastName,
+        id: response.id,
         email: response.email,
       };
       runInAction(() => {
@@ -68,6 +70,7 @@ export default class UserStore {
         username: response.username,
         firstName: response.firstName,
         lastName: response.lastName,
+        id: response.id,
         email: response.email,
       };
       runInAction(() => {
