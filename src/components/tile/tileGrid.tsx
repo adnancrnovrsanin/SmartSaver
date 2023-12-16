@@ -1,72 +1,120 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tile from "./tile";
 import TilePicker from "../tilePicker/tilePicker";
+import { Label } from "@radix-ui/react-label";
+import { Input } from "../ui/input";
+import { observer } from "mobx-react-lite";
+import { useStore } from "@/stores/store";
 
-interface TileGridProps {
-  rows: number;
-  columns: number;
-  editMode: boolean;
-  setEditMode: any;
-}
+interface TileGridProps {}
 
-const TileGrid: React.FC<TileGridProps> = ({
-  rows,
-  columns,
-  editMode,
-  setEditMode,
-}) => {
-  let fields = Array(11).fill(Array(11).fill(0));
-  let [tileValue, setTileValue] = useState(0);
-  const[isMouseDown, setIsMouseDown] = useState(false)
-  const renderTiles = () => {
-    const tiles = [];
+const TileGrid: React.FC<TileGridProps> = ({}) => {
 
-    for (let i = 0; i < rows; i++) {
-      const row = [];
-      for (let j = 0; j < columns; j++) {
-        row.push(
-          <Tile
-            key={`${i}-${j}`}
-            value={fields[i][j]}
-            tileValue={tileValue}
-            fields={fields}
-            i={i}
-            j={j}
-            onClick={() => console.log("proba")}
-            editMode={editMode}
-            isMouseDown={isMouseDown}
-            setIsMouseDown={setIsMouseDown}
-          />
-        );
+  const [tileValue, setTileValue] = useState(0);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [rows, setRows] = useState(11);
+  const [columns, setColumns] = useState(11);
+  const [editMode, setEditMode] = useState(false);
+  const [fieldsState, setFieldsState] = useState(Array(11).fill(Array(11).fill(0)));
+  const {devicesStore} = useStore();
+  const {setHomeMap} = devicesStore;
+  let fields = fieldsState;
+
+  function changeRows(newRows: number) {
+    if (newRows > fields.length) {
+      for (let i = fields.length; i < newRows; i++) {
+        fields.push(Array(columns).fill(0));
       }
-      tiles.push(
-        <div key={i} className="tile-row">
-          {row}
-        </div>
-      );
+    } else if (newRows < fields.length) {
+      fields = fields.slice(0, newRows);
     }
+    console.log(fields);
+    setFieldsState(fields);
+    setRows(newRows);
+  }
 
-    return tiles;
-  };
+  function changeColumns(newColumns: number) {
+    if (columns > fields[0].length) {
+      fields = fieldsState.map((row) => [...row, 0]);
+    } else if (columns < fields[0].length) {
+      fields = fieldsState.map((row) => row.slice(0, columns));
+    }
+    console.log(fields);
+    setFieldsState(fields);
+    setColumns(newColumns);
+  }
 
   function changeEditMode() {
     setEditMode(!editMode);
+    if (editMode) {
+      setHomeMap({
+        houseMap: fieldsState,
+        mapRowCount: rows,
+        mapColumnCount: columns,
+      });
+    }
   }
 
   return (
     <div className="tile-grid flex-column">
-      <div className="w-screen flex justify-end pr-3">
+      <div className="w-screen flex justify-end p-3">
         <button
           className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => changeEditMode()}
         >
-          Edit Mode
+          {editMode ? "Save" : "Edit"}
         </button>
       </div>
+      {editMode && (
+        <div className="flex gap-6 justify-center p-6">
+          <div className="flex-col gap-3">
+            <Label htmlFor="rows">Enter width of your house</Label>
+            <Input
+              id="rows"
+              type="number"
+              value={rows}
+              className="w-52"
+              min={1}
+              onChange={(e) => changeRows(Number(e.target.value))}
+            />
+          </div>
+          <div className="flex-col gap-3">
+            <Label htmlFor="col">Enter height of your house</Label>
+            <Input
+              id="col"
+              type="number"
+              className="w-52"
+              value={columns}
+              min={1}
+              onChange={(e) => changeColumns(Number(e.target.value))}
+            />
+          </div>
+        </div>
+      )}
       {editMode && <TilePicker value={tileValue} setValue={setTileValue} />}
-      <div className="w-screen flex justify-center">{renderTiles()}</div>
+      <div className="w-screen flex justify-center mb-5">
+        {fieldsState.map((row, j) => {
+          return (
+            <div key={j} className="tile-row">
+              {row.map((tile: any, i: any) => (
+                <Tile
+                  key={i}
+                  value={tile}
+                  tileValue={tileValue}
+                  setFieldsState={setFieldsState}
+                  i={j}
+                  j={i}
+                  editMode={editMode}
+                  isMouseDown={isMouseDown}
+                  setIsMouseDown={setIsMouseDown}
+                />
+              ))}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-export default TileGrid;
+export default observer(TileGrid);

@@ -12,6 +12,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useStore } from "@/stores/store";
 import { LoginRequestDto } from "@/models/user";
 import { toast } from "react-toastify";
+import { CustomH1 } from "@/components/Typography/CustomH1";
+
 
 const FormSchema = z.object({
   email: z.string().email({
@@ -39,7 +41,8 @@ export function LoginPage() {
   }
 
   return (
-    <div className="loginPageContainer">
+    <div className="loginPageContainer flex-col gap-10">
+      <CustomH1 text="Welcome to Smart Saver!" />
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Login</CardTitle>

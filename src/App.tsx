@@ -11,6 +11,8 @@ import { IconButton } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { Toaster } from "./components/ui/toaster";
+import Navbar from "./components/navbar/navbar";
+import { ThemeProvider } from "@/components/theme-provider"
 
 function App() {
   const { commonStore, userStore } = useStore();
@@ -28,11 +30,12 @@ function App() {
   if (!commonStore.appLoaded) return <InitialLoader adding={"App"} />;
 
   return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <div className="App">
       <ScrollRestoration />
       <Toaster />
       <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
-      {/* TODO: PUT NAVBAR HERE!!! */}
+      <Navbar />
       {location.pathname === "/" ? <LandingPage /> : <Outlet />}
       <IconButton
         sx={{
@@ -94,6 +97,7 @@ function App() {
       </IconButton>
       {/* TODO: INSERT FOOTER HERE!! */}
     </div>
+    </ThemeProvider>
   );
 }
 

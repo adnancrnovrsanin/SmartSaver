@@ -8,7 +8,6 @@ type TilePickerProps = {
 
 const TilePicker: React.FC<TilePickerProps> = ({ value, setValue }) => {
   const handleTileClick = (tileType: number) => {
-    console.log(tileType);
     setValue(tileType);
   };
 
