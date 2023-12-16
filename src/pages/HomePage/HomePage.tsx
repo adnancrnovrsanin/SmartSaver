@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../../components/navbar/navbar';
-import HomeGrid from '../HomeGrid/HomeGrid';
+import HomeGrid from '../Dashboard/Dashboard';
 
 const HomePage: React.FC = () => {
     return (
