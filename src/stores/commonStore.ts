@@ -8,17 +8,6 @@ export default class CommonStore {
 
   constructor() {
     makeAutoObservable(this);
-
-    reaction(
-      () => this.token,
-      (token) => {
-        if (token) {
-          window.localStorage.setItem("jwt", token);
-        } else {
-          window.localStorage.removeItem("jwt");
-        }
-      }
-    );
   }
 
   setServerError = (error: ServerError) => {
