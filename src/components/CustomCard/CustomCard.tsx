@@ -12,11 +12,12 @@ import {
 interface CustomCardProps {
     title: string;
     description: string;
+    onClick?: () => void;
 }
 
-const CustomCard: React.FC<CustomCardProps> = ({ title, description }) => {
+const CustomCard: React.FC<CustomCardProps> = ({ title, description, onClick }) => {
     return (
-        <Card className="w-[350px]">
+        <Card className="w-[350px]" onClick={onClick}>
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>{description}</CardDescription>

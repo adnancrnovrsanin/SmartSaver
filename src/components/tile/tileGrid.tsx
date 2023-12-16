@@ -1,24 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import Tile from "./tile";
 import TilePicker from "../tilePicker/tilePicker";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/store";
+import { useParams } from "react-router-dom";
+import { Field } from "@/models/home";
 
 interface TileGridProps {}
 
 const TileGrid: React.FC<TileGridProps> = ({}) => {
-
+  const { id } = useParams();
+  const { devicesStore } = useStore();
+  const { homes } = devicesStore;
   const [tileValue, setTileValue] = useState(0);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [rows, setRows] = useState(11);
   const [columns, setColumns] = useState(11);
   const [editMode, setEditMode] = useState(false);
-  const [fieldsState, setFieldsState] = useState(Array(11).fill(Array(11).fill(0)));
-  const {devicesStore} = useStore();
-  const {setHomeMap} = devicesStore;
+  const [fieldsState, setFieldsState] = useState(
+    Array(11).fill(Array(11).fill(0))
+  );
+  const { setHomeMap } = devicesStore;
   let fields = fieldsState;
+
+  useLayoutEffect(() => {
+    if (id) {
+      const home = homes.find((h) => h.id === id);
+      if (home) {
+        setRows(home.mapRowCount);
+        setColumns(home.mapColumnCount);
+        let polje: Number[][] = [];
+        let allFields: Field[] = [];
+        home.fieldRows.forEach((fr) => {
+          fr.fields.forEach((f) => {
+            allFields.push(f);
+          });
+        });
+        for (let i = 0; i < allFields.length; i++) {
+          let red = [];
+          let redValue: Number[] = [];
+          red = allFields.filter((f) => f.coordinates[0] === i);
+          red.sort((a, b) => a.coordinates[1] - b.coordinates[1]);
+          red.forEach((r) => redValue.push(r.value));
+          allFields = allFields.filter((f) => f.coordinates[0] !== i);
+          polje.push(redValue);
+          if (allFields.length === 0) break;
+        }
+        setFieldsState(polje);
+      }
+    }
+  }, [id]);
 
   function changeRows(newRows: number) {
     if (newRows > fields.length) {

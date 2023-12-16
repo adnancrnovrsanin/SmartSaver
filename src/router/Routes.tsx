@@ -15,7 +15,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         element: <RequireAuth />,
-        children: [ 
+        children: [
           // { path: "/dashboard", element: <Dashboard /> },
           // { path: "/home-grid", element: <TileGrid /> },
         ],
@@ -23,6 +23,7 @@ export const routes: RouteObject[] = [
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
       { path: "/dashboard", element: <Dashboard /> },
+      { path: "/home-grid/:id", element: <TileGrid /> },
       { path: "/home-grid", element: <TileGrid /> },
       { path: "/home-add", element: <AddNewHome /> },
     ],

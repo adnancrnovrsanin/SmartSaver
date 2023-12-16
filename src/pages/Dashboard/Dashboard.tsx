@@ -2,9 +2,11 @@ import { observer } from "mobx-react-lite";
 import { Button } from "@/components/ui/button";
 import CustomCard from "@/components/CustomCard/CustomCard";
 import { useNavigate } from "react-router-dom";
+import { useStore } from "@/stores/store";
 
 const Dashboard: React.FC = () => {
-  
+  const { devicesStore } = useStore();
+  const { homes } = devicesStore;
   const navigate = useNavigate();
 
   return (
@@ -22,7 +24,14 @@ const Dashboard: React.FC = () => {
         <Button onClick={() => navigate("/home-add")}>Add new home</Button>
       </div>
       <div className="p-4">
-        <CustomCard title="Home 1" description="Home 1 description" />
+        {homes.map((home, index) => (
+          <CustomCard
+            key={index}
+            title={home.name}
+            description={home.address}
+            onClick={() => navigate("/home-grid/" + home.id)}
+          />
+        ))}
       </div>
     </div>
   );

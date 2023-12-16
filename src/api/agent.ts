@@ -1,8 +1,10 @@
+import { Home } from "@/models/home";
 import {
   AuthResponseDto,
   LoginRequestDto,
   RegisterRequestDto,
 } from "@/models/user";
+import { Data } from "@/stores/devicesStore";
 import { store } from "@/stores/store";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
@@ -76,8 +78,14 @@ const AccountRequests = {
     requests.post<AuthResponseDto>("/account/register", user),
 };
 
+const HomeRequests = {
+  create: (data: Data) => requests.post<void>("/home", data),
+  getUserHomes: (userId: string) => requests.get<Home[]>("/home/user/" + userId),
+};
+
 const agent = {
   AccountRequests,
+  HomeRequests,
 };
 
 export default agent;

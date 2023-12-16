@@ -36,7 +36,8 @@ export default class UserStore {
       window.localStorage.setItem("jwt", response.token);
       runInAction(() => {
         this.user = user;
-        this.getUser();
+        // this.getUser();
+        store.devicesStore.getHomesForUser(user.id);
         router.navigate("/");
       });
     } catch (error) {
@@ -57,6 +58,7 @@ export default class UserStore {
       };
       runInAction(() => {
         this.user = newUser;
+        store.devicesStore.getHomesForUser(newUser.id);
       });
     } catch (error) {
       console.log(error);
@@ -65,28 +67,29 @@ export default class UserStore {
 
   logout = () => {
     store.commonStore.setToken(null);
-    window.localStorage.removeItem("jwt");
+    // window.localStorage.removeItem("jwt");
     this.user = null;
     router.navigate("/");
   };
 
-  getUser = async () => {
-    try {
-      const response = await agent.AccountRequests.current();
-      store.commonStore.setToken(response.token);
-      window.localStorage.setItem("jwt", response.token);
-      const user: User = {
-        userName: response.userName,
-        firstName: response.firstName,
-        lastName: response.lastName,
-        id: response.id,
-        email: response.email,
-      };
-      runInAction(() => {
-        this.user = user;
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // getUser = async () => {
+  //   try {
+  //     const response = await agent.AccountRequests.current();
+  //     store.commonStore.setToken(response.token);
+  //     window.localStorage.setItem("jwt", response.token);
+  //     const user: User = {
+  //       userName: response.userName,
+  //       firstName: response.firstName,
+  //       lastName: response.lastName,
+  //       id: response.id,
+  //       email: response.email,
+  //     };
+  //     runInAction(() => {
+  //       this.user = user;
+  //       store.devicesStore.getHomesForUser(user.id);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 }
