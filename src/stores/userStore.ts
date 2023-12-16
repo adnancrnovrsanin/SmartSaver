@@ -21,6 +21,7 @@ export default class UserStore {
       email,
       password,
     };
+<<<<<<< HEAD
     const response = await agent.AccountRequests.login(loginRequest);
     const user: User = {
       username: response.username,
@@ -35,6 +36,25 @@ export default class UserStore {
       this.getUser();
       router.navigate("/");
     });
+=======
+    try {
+      const response = await agent.AccountRequests.login(loginRequest);
+      const user: User = {
+        userName: response.userName,
+        firstName: response.firstName,
+        lastName: response.lastName,
+        email: response.email,
+      };
+      store.commonStore.setToken(response.token);
+      runInAction(() => {
+        this.user = user;
+        this.getUser();
+        router.navigate("/");
+      });
+    } catch (error) {
+      console.log(error);
+    }
+>>>>>>> 43b001c98d32844d617e6aff2b651bb29a21544b
   };
 
   register = async (user: RegisterRequestDto) => {
@@ -42,7 +62,7 @@ export default class UserStore {
       const response = await agent.AccountRequests.register(user);
       store.commonStore.setToken(response.token);
       const newUser: User = {
-        username: response.username,
+        userName: response.userName,
         firstName: response.firstName,
         lastName: response.lastName,
         id: response.id,
@@ -67,7 +87,7 @@ export default class UserStore {
       const response = await agent.AccountRequests.current();
       store.commonStore.setToken(response.token);
       const user: User = {
-        username: response.username,
+        userName: response.userName,
         firstName: response.firstName,
         lastName: response.lastName,
         id: response.id,

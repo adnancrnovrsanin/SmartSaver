@@ -3,6 +3,7 @@ import { createBrowserRouter, RouteObject } from "react-router-dom";
 import RequireAuth from "./RequireAuth";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import RegisterPage from "@/pages/RegisterPage/RegisterPage";
+import HomePage from "@/pages/HomePage/HomePage";
 import TileGrid from "@/components/tile/tileGrid";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import AddNewHome from "@/pages/AddNewHome/AddNewHome";
