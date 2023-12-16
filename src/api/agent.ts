@@ -7,7 +7,7 @@ import { store } from "@/stores/store";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
-axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;
+axios.defaults.baseURL = "http://localhost:5000/api";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 

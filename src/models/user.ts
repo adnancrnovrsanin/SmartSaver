@@ -1,5 +1,5 @@
 export interface User {
-  username: string;
+  userName: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -12,7 +12,7 @@ export interface LoginRequestDto {
 
 export interface AuthResponseDto {
   id: string;
-  username: string;
+  userName: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -20,7 +20,7 @@ export interface AuthResponseDto {
 }
 
 export interface RegisterRequestDto {
-  username: string;
+  userName: string;
   firstName: string;
   lastName: string;
   email: string;

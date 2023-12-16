@@ -4,14 +4,16 @@ import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 import TextInput from "@/common/form/TextInput";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import "./style.css";
+import { useStore } from "@/stores/store";
+import { RegisterRequestDto } from "@/models/user";
+import { toast } from "react-toastify";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
+  userName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
   firstName: z.string().min(2, {
@@ -32,10 +34,13 @@ const FormSchema = z.object({
 });
 
 export function RegisterPage() {
+  const { userStore } = useStore();
+  const { register } = userStore;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      userName: "",
       firstName: "",
       lastName: "",
       email: "",
@@ -45,14 +50,18 @@ export function RegisterPage() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    if (data.confirmPassword !== data.password) {
+      toast.error("Passwords do not match!");
+      return;
+    }
+    const registerRequest: RegisterRequestDto = {
+      userName: data.userName,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+    };
+    register(registerRequest);
   }
 
   return (
@@ -68,7 +77,7 @@ export function RegisterPage() {
               className="w-full space-y-6"
             >
               <TextInput
-                name="username"
+                name="userName"
                 type="text"
                 label="Username"
                 placeholder="Username"

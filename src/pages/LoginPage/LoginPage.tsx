@@ -6,11 +6,14 @@ import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 import TextInput from "@/common/form/TextInput";
 import "./style.css";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useStore } from "@/stores/store";
+import { LoginRequestDto } from "@/models/user";
+import { toast } from "react-toastify";
 import { CustomH1 } from "@/components/Typography/CustomH1";
+
 
 const FormSchema = z.object({
   email: z.string().email({
@@ -22,6 +25,9 @@ const FormSchema = z.object({
 });
 
 export function LoginPage() {
+  const { userStore } = useStore();
+  const { login } = userStore;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -31,14 +37,7 @@ export function LoginPage() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    login(data.email, data.password);
   }
 
   return (
