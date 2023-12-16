@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import Logo from "../../assets/SmartSaverLogo.png";
 
 interface SidebarProps {
   expanded: boolean;
@@ -41,10 +42,14 @@ const Sidebar: React.FC<SidebarProps> = ({ expanded, setExpanded }) => {
         backgroundColor: "#020817",
       }}
     >
-      {/* Sidebar content goes here */}
-      <a href="#">Link 1</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
+      <div className="navbar__logo flex items-center p-10">
+        <img src={Logo} alt="Logo" className="w-8 h-8 mr-2" />
+        <h1 className="text-lg font-bold">Smart Saver</h1>
+      </div>
+      <div className="flex flex-col justify-center items-center">
+      <a href="/dashboard" className="text-lg font-bold">Dashboard</a>
+      <a href="/" className="text-lg font-bold">Landing</a>
+      </div>
     </div>
   );
 };

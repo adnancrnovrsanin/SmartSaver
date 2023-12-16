@@ -8,7 +8,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="h-screen overflow-hidden">
       <header className="w-screen flex-col justify-center py-5 border-b-4 my-5">
         <h1 className="text-4xl font-bold mb-4 overflow-hidden text-center">
           Dashboard

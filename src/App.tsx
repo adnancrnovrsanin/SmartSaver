@@ -13,6 +13,7 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import { Toaster } from "./components/ui/toaster";
 import Navbar from "./components/navbar/navbar";
 import { ThemeProvider } from "@/components/theme-provider"
+import Footer from "./components/footer/footer";
 
 function App() {
   const { commonStore, userStore } = useStore();
@@ -95,7 +96,7 @@ function App() {
           }}
         />
       </IconButton>
-      {/* TODO: INSERT FOOTER HERE!! */}
+      <Footer/>
     </div>
     </ThemeProvider>
   );
